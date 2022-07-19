@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96.617" height="123.509" viewBox="0 0 96.617 123.509">
+  <g id="Group_30" data-name="Group 30" transform="translate(-1234.331 -878.22)">
+    <g id="liquor_black_24dp" transform="translate(1235.331 879.22)">
+      <g id="Group_29" data-name="Group 29" transform="translate(0 0)">
+        <g id="Group_28" data-name="Group 28">
+          <path id="Path_20" data-name="Path 20" d="M3,54.6A18.289,18.289,0,0,0,15.151,71.736v19.32H3v12.151H39.453V91.056H27.3V71.736A18.289,18.289,0,0,0,39.453,54.6V6H3Z" transform="translate(-3 18.302)" fill="none" stroke="#ec0989" stroke-width="2"/>
+          <path id="Path_21" data-name="Path 21" d="M51.325,41.733l-4.016-1.944c-1.715-.851-2.844-3.159-2.844-5.772V8.075C44.464,4.734,42.582,2,40.281,2H27.732c-2.3,0-4.183,2.734-4.183,6.075v26c0,2.612-1.129,4.921-2.844,5.772l-4.016,1.944C13.3,43.5,11,48.113,11,53.338v58.021c0,6.683,3.765,12.151,8.366,12.151H48.648c4.6,0,8.366-5.468,8.366-12.151V53.277C57.014,48.052,54.713,43.435,51.325,41.733Z" transform="translate(37.604 -2)" fill="none" stroke="#ec0989" stroke-width="2"/>
+        </g>
+      </g>
+    </g>
+    <path id="Path_24" data-name="Path 24" d="M65.331,5092.463h35.938" transform="translate(1170 -4154.699)" fill="none" stroke="#ec0989" stroke-width="2"/>
+    <path id="Path_28" data-name="Path 28" d="M65.331,5092.463H85.462" transform="translate(1232.176 -4196.31)" fill="none" stroke="#ec0989" stroke-width="2"/>
+    <path id="Path_25" data-name="Path 25" d="M65.331,5092.463H111.2" transform="translate(1218.745 -4151.132)" fill="none" stroke="#ec0989" stroke-width="2"/>
+    <path id="Path_27" data-name="Path 27" d="M65.331,5092.463H111.2" transform="translate(1218.745 -4122.599)" fill="none" stroke="#ec0989" stroke-width="2"/>
+  </g>
+</svg>
