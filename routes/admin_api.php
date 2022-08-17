@@ -47,19 +47,19 @@ use Illuminate\Support\Facades\Route;
 //// ADMIN DASHBOARD
 
 
-Route::group(['middleware' => ['auth:sanctum','verified','admin']], function () {
+Route::group(['middleware' => ['auth:sanctum','verified','admin'], 'prefix' => 'admin'], function () {
 
-    Route::apiResource('admin/members',UserController::class);
+    Route::apiResource('members',UserController::class);
 
-    Route::apiResource('admin/auctions',AuctionController::class);
+    Route::apiResource('auctions',AuctionController::class);
 
-    Route::apiResource('admin/languages',LanguageController::class);
+    Route::apiResource('languages',LanguageController::class);
 
-    Route::apiResource('admin/shipping-method',DeliveryZoneController::class);
+    Route::apiResource('shipping-method',DeliveryZoneController::class);
 
-    Route::apiResource('admin/order-status',OrderStatusController::class);
+    Route::apiResource('order-status',OrderStatusController::class);
 
-    Route::apiResource('admin/vat-rates',VatRatesController::class);
+    Route::apiResource('vat-rates',VatRatesController::class);
 
     
 
@@ -105,12 +105,3 @@ Route::get('admin/orders',[OrderController::class,'index'])->middleware(['auth:s
 Route::get('admin/orders',[OrderController::class,'index'])->middleware(['auth:sanctum', 'verified']);;
 
 
-
-//Route::post('/admin/login', function (Request $request) {
-//    return response()->json(['message'=> 'Wrong Credentials'], 404);
-//});
-
-//Route::group(['prefix' => 'admin','middleware' => 'admin'], function () {
-//    // Admin Dashboard
-//    Route::get('dashboard','AdminController@dashboard')->name('dashboard');
-//});

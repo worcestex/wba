@@ -109,6 +109,17 @@ class AuctionEndCommand extends Command
                             'email' => $user->email,
                         ];
                         Mail::to($user->email)->send(new AuctionEndMail($contact));
+
+                        // Mail Seller
+                        /*
+                        $seller = User::select('*')->where('id','=',$lot->seller_id)->get(); 
+                        $seller_info = [
+                            'name' => $seller->name,
+                            'email' => $seller->email,
+                        ];
+                        Mail::to($seller->email)->send(new AuctionSellerEndMail($seller_info));
+                        */
+
                     
                     }
 

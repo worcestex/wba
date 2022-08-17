@@ -70,6 +70,7 @@ class AuctionController extends Controller
         if (auth()->user()->id) {
             return response()->json(['data' => $auction], 201);
         }
+        
     }
 
     /**

@@ -21,7 +21,7 @@ class Kernel extends ConsoleKernel
     {
         // Clear expired tokens from password_resets table
         $schedule->command('auth:clear-resets')->everyFifteenMinutes();
-        $schedule->command('WinningBidCommand')->everyMinute();
+        $schedule->command('WinningBidCommand')->dailyAt('13:00');
 
         //Send Auction Finish email
         $auctions = Auction::all();
@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
             
 
             $schedule->command('command:auction-start')->when($start_time->isCurrentMinute());
-            $schedule->command('command:auction-end', [$auction])->when($end_time->isCurrentMinute());
+            $schedule->command('command:auction-end', [$auction->id])->when($end_time->isCurrentMinute());
 
         }
        

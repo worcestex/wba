@@ -65,11 +65,13 @@ class BidController extends Controller
             $maxBid = $bidIncrement->max_bid;
             $stepSize = $bidIncrement->step_size;
 
+
+
             // check if there is a previous bid
             if (!$latestBid) {
                 // if bid is smaller than min price + bid increment -> error: bid too low
                 if ($request->bid_amount < ($lot->min_price + $minBid) || $request->bid_amount > ($lot->min_price + $maxBid)) {
-                    return response()->json(['message' => 'Bid amount too low'], 406);
+                    return response()->json(['message' => 'Bid amount out of range'.$minBid."-".$maxBid], 406);
                     // else - place bid
                 } else {
                     return $this->placeBid($request);

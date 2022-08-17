@@ -23,7 +23,13 @@ class LotController extends Controller
     {
 
         // admin only
-        return Lot::all();
+        if(auth()->user()->business_member)
+        {
+            return Lot::all();
+
+        }
+        //users
+        return Lot::where('seller_id',auth()->user()->id)->get();
     }
 
     /**
@@ -36,7 +42,7 @@ class LotController extends Controller
     {
         $auction = Auction::find($request->auction_id);
         if(!$auction){
-            return response()->json(['message' => 'Successful', 'data' => 'Auction not found'], 201);
+            return response()->json(['message' => 'Auction not found'], 201);
 
         }
         
@@ -181,6 +187,124 @@ class LotController extends Controller
             return response()->json(['message' => 'Successful', 'data' => $lotBidHistory], 201);
     }
 
+    
+
+
+    public function sellLot(Request $request){
+
+        
+        $request->validate([
+            'name' => 'required', //form
+            'description' => 'required', //form
+            'distillery' => 'nullable',
+            'distillery_status' => 'nullable', //form
+            'region' => 'nullable',
+            'country' => 'nullable',
+            'size' => 'nullable', //form
+            'type' => 'nullable',
+            'age' => 'nullable',
+            'number_of_bottles' => 'nullable',
+            'strength' => 'nullable',
+            'cask_no' => 'nullable',
+            'shipping_weight' => 'nullable', //form
+            'images' => 'nullable', //form
+
+
+
+            'serial_number' => 'nullable',
+            'item_price_excl_vat' => 'nullable',
+            'description_2' => 'nullable',
+            'bottler' => 'nullable', //form
+            'whisky' => 'nullable',
+            'fill_level' => 'nullable', 
+            'cask_finish' => 'nullable',
+            'cask_type' => 'nullable',
+            'bottle_grouping' => 'nullable',
+
+            'brand' => 'nullable',
+            'batch_no' => 'nullable',
+            'bottle_no' => 'nullable',
+            'decanter_weight' => 'nullable',
+            'please_note' => 'nullable',
+            'ignore_late_payment' => 'nullable',
+            'reserve_price' => 'nullable',
+            'min_price' => 'nullable',
+            'abv' => 'nullable',
+            'volume_cl' => 'nullable',
+            'buy_it_now_price' => 'nullable',
+
+
+        ]);
+        
+        //$vat_rate = 0;// To be calculated
+        
+
+        //$vat_amount = $request->item_price_excl_vat * $vat_rate;
+        //$request->starting_price = $request->item_price_excl_vat + $vat_amount; 
+
+
+        //id
+        //featured //admin
+        //winning bid
+        //status 
+        //item price excl vat
+        // vat rate
+        // is vat deductable
+        // is published
+        // max bid
+        //buyer id
+        //seller id
+        //epos code
+        // lot pickup method
+        // lot collection point
+
+
+
+
+
+
+
+/*
+        $auction = Auction::find($request->auction_id);
+        if(!$auction){
+            return response()->json(['message' => 'Auction not found'], 201);
+
+        }
+        
+*/
+
+        /*
+   
+        //Get starting bid increment
+        $bid_increment_id = BidIncrement::
+        select('id,max_bid')
+        ->where('min_bid', '<=', $request->starting_price)
+        ->where('max_bid','>=', $request->starting_price)
+        ->get();
+        
+
+        
+
+
+    
+         */
+        $lot = new Lot($request->all());
+        $lot->status = 'registered';
+        $lot->seller_id = auth()->user()->id;
+
+
+
+        //$lot->bid_increment_id = $bid_increment_id[0]->id;
+
+        // Insert request to database
+        $lot->save();
+
+        return response()->json(['message' => 'Successful', 'data' => $lot->id], 201);
+
+
+       
+       
+    }
 
 
 }

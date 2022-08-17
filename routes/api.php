@@ -4,6 +4,7 @@ use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\BidIncrementController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LanguageController;
@@ -74,6 +75,15 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::post("/logoutToken", [AuthController::class, 'logout']);
 });
 
+// USER DASHBOARD //
+/*
+Route::group('prefix'=>'dashboard',['middleware' => ['auth:sanctum','verified']], function () {
+
+    Route::get('users/{id}/wishlist', [UserWishListController::class, 'show'])->middleware(['auth:sanctum', 'verified']);
+
+});
+*/
+
 //Users
 Route::apiResource('users', UserController::class)->middleware(['auth:sanctum', 'verified']);
 
@@ -93,6 +103,13 @@ Route::get('lots/{id}', [LotController::class,'show'])->middleware(['auth:sanctu
 Route::get('lots', [LotController::class,'index'])->middleware(['auth:sanctum', 'verified']);
 Route::put('lots/{id}', [LotController::class,'update'])->middleware(['auth:sanctum', 'verified']);
 
+
+Route::post('sell-lot', [LotController::class, 'sellLot'])->middleware(['auth:sanctum', 'verified']);
+
+
+
+// Basket checkout
+Route::get('checkout',[CheckoutController::class,'checkoutItems'])->middleware(['auth:sanctum', 'verified']);
 
 //Stripe
 
@@ -127,15 +144,23 @@ Route::put('bid-increments/{id}', [BidIncrementController::class, 'update']) ->m
 Route::get('bid-increments', [BidIncrementController::class, 'show']) ->middleware(['auth:sanctum', 'verified']);
 //get request
 
-
+//Change language
 Route::get('change-language/{locale}', [LanguageController::class, 'changeLanguage']);
 
 
+// User details
+Route::get('details', [UserController::class, 'getUserDetails'])->middleware(['auth:sanctum', 'verified']);
+Route::put('details', [UserController::class, 'updateUserDetails'])->middleware(['auth:sanctum', 'verified']);
 
+// User orders 
+Route::get('orders', [OrderController::class, 'getUserUnpaidOrders'])->middleware(['auth:sanctum', 'verified']);
+Route::get('previous-orders', [OrderController::class, 'getUserPaidOrders'])->middleware(['auth:sanctum', 'verified']);
 
 
 // Contact
 Route::post('contact', [ContactController::class, 'store']);
 Route::post('contact', [ContactController::class, 'sendMail']);
+
+
 
 include('admin_api.php');

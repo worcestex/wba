@@ -20,6 +20,10 @@ class OrderController extends Controller
     {
         // for admins
         // admin only
+        if(auth()->user()){
+            return Order::all();
+
+        }
         return Order::all();
 
         //for users
@@ -98,5 +102,15 @@ class OrderController extends Controller
         
         return Order::where("is_payment_confirmed", 1)->get();
     }
+
+    public function getUserUnpaidOrders(){
+        $user = auth()->user();
+        return Order::where("buyer_id", $user->id)->where("is_payment_confirmed", 0)->get();
+    }
+    public function getUserPaidOrders(){
+        $user = auth()->user();
+        return Order::where("buyer_id", $user->id)->where("is_payment_confirmed", 1)->get();
+    }
+
 
 }

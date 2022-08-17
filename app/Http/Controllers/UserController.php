@@ -119,4 +119,45 @@ class UserController extends Controller
             return response()->json(['message' => 'Deleted'], 202);
         }
     }
+
+
+
+    public function getUserDetails(Request $request){
+
+
+        $user = auth()->user();
+        return $user;
+
+    }
+
+    public function updateUserDetails(Request $request){
+
+        $user = auth()->user();
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'contact_number' => 'nullable',
+            'mobile_number' => 'nullable',
+            'address_1' => 'nullable',
+            'address_2' => 'nullable',
+            'city' => 'nullable',
+            'country' => 'nullable',
+            'postcode' => 'nullable',
+
+
+        ]);
+        
+
+
+
+        $user->update($request->all());
+        $user->save();      
+    
+        return response()->json(['data' => $user], 201);
+
+
+
+
+
+    }   
 }
