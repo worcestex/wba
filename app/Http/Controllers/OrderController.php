@@ -122,8 +122,8 @@ class OrderController extends Controller
 
         // Stripe Payment Code
         $user_from= $request->user();
+
         $user_from->createOrGetStripeCustomer();
-        
 
         $orders =  Order::select('order_id','total_amount','order_status_id')->where("buyer_id", auth()->user()->id)->where("is_payment_confirmed", 0)->get();
 
@@ -153,24 +153,33 @@ class OrderController extends Controller
         foreach($orders as $order){
              
             $seller = Lot::select('seller_id')->where('id',$order->order_id)->get();
+
             $user_to = User::where('id',$seller[0]->seller_id)->get();
-            /*
-            $user_to =$user_to->createOrGetStripeCustomer();
-            $stripe->transfers->create([
-                'amount' => $order->total_amount,
-                'currency' => 'gbp',
-                'destination' => $user_to->id,
-                'transfer_group' => 'ORDER_95',
+
+            $userTo = $stripe->accounts->create([
+                'type' => 'custom',
+                'country' => 'GB',
+                'email' => $user_to[0]->email,
+                'capabilities' => [
+                  'card_payments' => ['requested' => true],
+                  'transfers' => ['requested' => true],
+                ],
               ]);
-              
-            */
+            /*
+            $stripe->transfers->create([
+                'amount' => $order->total_amount*100,
+                'currency' => 'gbp',
+                'destination' => $userTo->id,
+              ]);
+              */
+              Mail::to($user_to[0]->email)->send(new CheckoutSuccessfulMail());
 
         }
         $orders = Order::
         where("buyer_id", auth()->user()
         ->id)->where("is_payment_confirmed", 0)
         ->update(['order_status_id' => 2]);
-        return $orders;
+        return response()->json(['message' => 'Successful'], 201);
 
 
 
