@@ -15,8 +15,29 @@ class OrderStatusSeeder extends Seeder
      */
     public function run()
     {
-        OrderStatus::factory()
-            ->count(50)
-            ->create();
+        OrderStatus::create([
+            'status' => 'Registered',
+            'email_text' => 'Thank you for registering a lot'
+        ]);
+        OrderStatus::create([
+            'status' => 'On Auction',
+            'email_text' => 'Your lot is now on auction'
+        ]);
+        OrderStatus::create([
+            'status' => 'Lot Successful',
+            'email_text' => 'Your lot has won, awaiting buyer to purchase'
+        ]);
+        OrderStatus::create([
+            'status' => 'Lot Storage',
+            'email_text' => 'Your auction has put into storage'
+        ]);
+        OrderStatus::create([
+            'status' => 'Lot Paid',
+            'email_text' => 'Your lot has been paided for'
+        ]);
+        OrderStatus::create([
+            'status' => 'Refunded',
+            'email_text' => 'Your lot has been refunded'
+        ]);
     }
 }

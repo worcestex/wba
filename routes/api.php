@@ -109,7 +109,9 @@ Route::post('sell-lot', [LotController::class, 'sellLot'])->middleware(['auth:sa
 
 
 // Basket checkout
-Route::get('checkout',[CheckoutController::class,'checkoutItems'])->middleware(['auth:sanctum', 'verified']);
+Route::get('users/{id}/basket',[OrderController::class,'index'])->middleware(['auth:sanctum', 'verified']);
+Route::post('users/{id}/basket',[OrderController::class,'checkoutOrders'])->middleware(['auth:sanctum', 'verified']);
+
 
 //Stripe
 

@@ -56,7 +56,7 @@ class CreateLotsTable extends Migration
             $table->json('please_note')->nullable();
             $table->unsignedBigInteger('buyer_id')->nullable();
             $table->boolean('ignore_late_payment')->default(false);
-            $table->unsignedBigInteger('seller_id')->nullable();
+            $table->unsignedBigInteger('seller_id');
             $table->float('reserve_price')->nullable();
             $table->float('min_price')->nullable();
             $table->float('abv')->nullable();
