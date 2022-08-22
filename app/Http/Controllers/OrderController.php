@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderStatus;
+
 use App\Models\User;
 use App\Models\Lot;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CheckoutSuccessfulMail;
 use App\Mail\LotPurchasedMail;
+use App\Mail\OrderUpdateMail;
+
 
 
 use Illuminate\Http\Request;
@@ -75,8 +79,21 @@ class OrderController extends Controller
     {
         
         $order = Order::find($id);
+        $user = User::where('id',$order->buyer_id)->get();
 
+        
+        if($order->id != $request->order_status){
+            $order_status = OrderStatus::find($request->order_status);
 
+            $content = [
+                'status' => $order_status->status,
+                'email_text' => $order_status->email_text,
+                'email' => $user[0]->email
+
+            ];
+    
+            Mail::to($user[0]->email)->send(new OrderUpdateMail($content));
+        }
     
         if (!$order) {
             return response()->json(['message' => 'Lot not Found'], 404);
@@ -185,6 +202,10 @@ class OrderController extends Controller
 
 
 
+    }
+
+    public function shippedOrders(){
+        return response()->json(['message' => 'Successful'], 201);
     }
 
 

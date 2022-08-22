@@ -95,6 +95,7 @@ Route::get('admin/orders',[OrderController::class,'index'])->middleware(['auth:s
 Route::put('admin/orders/{id}',[OrderController::class,'update'])->middleware(['auth:sanctum', 'verified']);;
 Route::delete('admin/orders/{id}',[OrderController::class,'destroy'])->middleware(['auth:sanctum', 'verified']);;
 
+
 //Unpaid orders
 Route::get('admin/orders/unpaid',[OrderController::class,'unpaidOrders'])->middleware(['auth:sanctum', 'verified']);;
 
