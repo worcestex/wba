@@ -77,13 +77,14 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        //Find order and related user
         $order = Order::find($id);
         $user = User::where('id',$order->buyer_id)->get();
 
+        //If 
         
-        if($order->id != $request->order_status){
-            $order_status = OrderStatus::find($request->order_status);
+        if($order->order_status_id != $request->order_status_id && $request->order_status_id != null){
+            $order_status = OrderStatus::find($request->order_status_id);
 
             $content = [
                 'status' => $order_status->status,
@@ -100,11 +101,11 @@ class OrderController extends Controller
         }
 
 
-        // create lot
+        // update lot
         $order->update($request->all());
         $order->save();      
     
-        return response()->json(['data' => 'Uploaded Successfully'], 201);
+        return response()->json(['Message' => 'Uploaded Successfully','data' => $order], 201);
 
     }
 
