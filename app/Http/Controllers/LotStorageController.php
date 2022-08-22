@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\LotStorage;
+use App\Models\Lot;
 
 
 use Illuminate\Http\Request;
@@ -41,7 +42,33 @@ class LotStorageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $slot_price = 15.00;
+
+        $user = $request->user();
+
+        $paymentMethods = $user->paymentMethods();
+
+        $user->charge($slot_price*100, $paymentMethods[0]->id);
+
+        $lot = Lot::where('seller_id',$request->user()->id)->where('id', $request->lot_id )->first();
+        if(!$lot){
+            return response()->json(['message' => 'No lot found for this user'], 404);
+
+        }
+
+
+        $lot_storage = new LotStorage();
+        $lot_storage->lot_id = $request->lot_id;
+        $lot_storage->buyer_id = $request->user()->id;
+        $lot_storage->save();
+
+        return response()->json(['message' => 'Successful', 'data' => $request->all()], 201);
+
+    /*
+
+
+        */
     }
 
     /**

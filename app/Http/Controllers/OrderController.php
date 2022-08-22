@@ -8,6 +8,7 @@ use App\Models\Lot;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CheckoutSuccessfulMail;
+use App\Mail\LotPurchasedMail;
 
 
 use Illuminate\Http\Request;
@@ -124,7 +125,7 @@ class OrderController extends Controller
         $user_from= $request->user();
 
         $user_from->createOrGetStripeCustomer();
-
+        
         $orders =  Order::select('order_id','total_amount','order_status_id')->where("buyer_id", auth()->user()->id)->where("is_payment_confirmed", 0)->get();
 
         $stripe = new \Stripe\StripeClient(
@@ -172,13 +173,14 @@ class OrderController extends Controller
                 'destination' => $userTo->id,
               ]);
               */
-              Mail::to($user_to[0]->email)->send(new CheckoutSuccessfulMail());
+              Mail::to($user_to[0]->email)->send(new LotPurchasedMail());
 
         }
         $orders = Order::
         where("buyer_id", auth()->user()
         ->id)->where("is_payment_confirmed", 0)
-        ->update(['order_status_id' => 2]);
+        ->update(['order_status_id' => 2])
+        ->update(['is_payment_confirmed' => 1]);
         return response()->json(['message' => 'Successful'], 201);
 
 

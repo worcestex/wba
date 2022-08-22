@@ -28,6 +28,7 @@ class LotPurchasedMail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->from('test@gmail.com')
+        ->markdown('template.client.lotpurchasedform');
     }
 }

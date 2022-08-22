@@ -106,7 +106,7 @@ Route::put('lots/{id}', [LotController::class,'update'])->middleware(['auth:sanc
 
 Route::post('sell-lot', [LotController::class, 'sellLot'])->middleware(['auth:sanctum', 'verified']);
 
-
+Route::post('lots-storage',[LotStorageController::class, 'store'])->middleware(['auth:sanctum', 'verified']);
 
 // Basket checkout
 Route::get('users/{id}/basket',[OrderController::class,'index'])->middleware(['auth:sanctum', 'verified']);
