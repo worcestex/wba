@@ -36,8 +36,6 @@ class OrderController extends Controller
         }
         return Order::where('buyer_id',auth()->user()->id)->get();
 
-
-
     }
 
     /**
@@ -81,8 +79,7 @@ class OrderController extends Controller
         $order = Order::find($id);
         $user = User::where('id',$order->buyer_id)->get();
 
-        //If 
-        
+        //Prevent email resent on update 
         if($order->order_status_id != $request->order_status_id && $request->order_status_id != null){
             $order_status = OrderStatus::find($request->order_status_id);
 
