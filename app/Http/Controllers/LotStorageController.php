@@ -20,8 +20,11 @@ class LotStorageController extends Controller
     public function index()
     {
         //
-        return LotStorage::all();
+        if(auth()->user()->business_member){
+            return LotStorage::all();
 
+        }
+        return Lot::join('lot_storages','lot_storages.lot_id','=','lots.id')->where('lot_storages.buyer_id',auth()->user()->id)->get();
     }
 
     /**
@@ -43,7 +46,7 @@ class LotStorageController extends Controller
     public function store(Request $request)
     {
 
-        $slot_price = 15.00;
+        $slot_price = 20.00;
 
         $user = $request->user();
 
@@ -113,6 +116,15 @@ class LotStorageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+        $lot_storage = LotStorage::find($id);
+        if(!$lot_storage){
+            return response()->json(['message' => 'Lot collection point not found'], 404);
+
+        }
+        else{
+            LotStorage::find($id)->delete();
+            return response()->json(['message' => 'Deleted'], 202);
+        }
     }
 }

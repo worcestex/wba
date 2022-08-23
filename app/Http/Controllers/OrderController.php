@@ -96,6 +96,7 @@ class OrderController extends Controller
         if (!$order) {
             return response()->json(['message' => 'Lot not Found'], 404);
         }
+        
 
 
         // update lot
@@ -202,9 +203,7 @@ class OrderController extends Controller
 
     }
 
-    public function shippedOrders(){
-        return response()->json(['message' => 'Successful'], 201);
-    }
+
 
 
 }
