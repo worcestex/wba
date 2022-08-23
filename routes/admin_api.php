@@ -65,6 +65,10 @@ Route::group(['middleware' => ['auth:sanctum','verified','admin'], 'prefix' => '
 
 });
 
+Route::group(['middleware' => ['auth:sanctum','verified','admin']], function () {
+
+Route::delete('admin/bids/{bidId}', [BidController::class,'destroy'])->middleware(['auth:sanctum', 'verified']);
+
 Route::post('admin/lots', [LotController::class,'store'])->middleware(['auth:sanctum', 'verified']);
 Route::put('admin/lots/{lotId}', [LotController::class,'update'])->middleware(['auth:sanctum', 'verified']);
 Route::delete('admin/lots/{lotId}', [LotController::class,'destroy'])->middleware(['auth:sanctum', 'verified']);
@@ -101,8 +105,8 @@ Route::get('admin/orders/unpaid',[OrderController::class,'unpaidOrders'])->middl
 
 
 //Order Status
-Route::get('admin/orders',[OrderController::class,'index'])->middleware(['auth:sanctum', 'verified']);;
-Route::get('admin/orders',[OrderController::class,'index'])->middleware(['auth:sanctum', 'verified']);;
-Route::get('admin/orders',[OrderController::class,'index'])->middleware(['auth:sanctum', 'verified']);;
+Route::apiResource('admin/orders-status',OrderController::class)->middleware(['auth:sanctum', 'verified']);;
 
 
+
+});

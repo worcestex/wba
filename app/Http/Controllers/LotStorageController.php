@@ -9,7 +9,7 @@ use App\Models\Lot;
 use Illuminate\Http\Request;
 
 //https://www.whiskybull.com/admin/storage/
-
+    
 class LotStorageController extends Controller
 {
     /**

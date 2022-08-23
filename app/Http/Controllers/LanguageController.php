@@ -96,7 +96,7 @@ class LanguageController extends Controller
         
         $language = Language::find($request);
         if(!$language){
-            return response()->json(['message' => 'Lot collection point not found'], 404);
+            return response()->json(['message' => 'language not found'], 404);
 
         }
         else{
