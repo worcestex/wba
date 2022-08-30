@@ -52,8 +52,14 @@ class UserWatchlistController extends Controller
      */
     public function show()
     {
-        $wishlist = UserWatchlist::where('user_id', auth()->user()->id)->select()->get();
-        return response()->json(['message' => auth()->user()->id, 'data' => $wishlist], 202);
+        $lots = array();
+        $watchlist_ids = UserWatchlist::where('user_id', auth()->user()->id)->pluck('id')->toArray();
+        $watchlists = UserWatchlist::find($watchlist_ids);
+        
+        foreach ($watchlists as $watchlist){
+            array_push($lots,$watchlist->lot);
+        }
+        return response()->json(['message' => auth()->user()->id, 'data' => $lots], 202);
     }
 
 

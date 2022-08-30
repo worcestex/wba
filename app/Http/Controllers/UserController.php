@@ -17,6 +17,8 @@ class UserController extends Controller
      */
     public function index()
     {
+
+        return User::all();
         // currently only fetching auth user, but eventually will need to fetch all users
         // needs to be changed permissions to only admin roles can fetch all users
         return User::find(auth()->user()->id);

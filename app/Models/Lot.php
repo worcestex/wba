@@ -53,6 +53,11 @@ class Lot extends Model
         return $this->belongsTo(Auction::class);
     }
 
+    public function watchlist()
+    {
+        return $this->hasMany(UserWatchlist::class);
+    }
+
     public function bidIncrement()
     {
         return $this->hasOne(BidIncrement::class);

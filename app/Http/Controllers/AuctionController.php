@@ -115,6 +115,8 @@ class AuctionController extends Controller
         //
     }
 
+
+
     /**
      * Remove the specified resource from storage.
      *
@@ -124,12 +126,14 @@ class AuctionController extends Controller
     {
         $nextAuction = Auction::orderBy('start_date_time', 'ASC')
             ->where('start_date_time', '>', Carbon::now())
-            ->first();
+            ->get();
 
+        return $nextAuction;
         return $nextAuction
             ? response()->json(['message' => 'Successful', 'data' => $nextAuction], 201)
             : response()->json(['message' => 'Not found'], 404);
     }
+    
 
     public function fetchItemsFromPastAuctions()
     {
@@ -148,6 +152,7 @@ class AuctionController extends Controller
             ->orderBy('start_date_time', 'ASC')
             ->select('id')
             ->get();
+
 
         return $this->getItemsFromAuctions($auctions);
     }
@@ -169,6 +174,9 @@ class AuctionController extends Controller
             return response()->json(['message' => 'Successful', 'data' => $itemsFromAuctionsData], 201);
         }
     }
+
+
+
     private function updateLots($auction){
 
         $lots = Lot::where('auction_id', '=', $auction->id)->get();

@@ -11,7 +11,9 @@ class VerifyCsrfToken extends Middleware
      *
      * @var array<int, string>
      */
-    protected $except = [
+    protected $except = [ 
+        'http://192.168.87.189:8080/*',
+        'http://localhost:8080/* '
         //
     ];
 }

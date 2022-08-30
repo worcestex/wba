@@ -37,10 +37,10 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 //Route::get('profile', function () {
 //    // Only verified users may enter...
 //})->middleware('verified');
+
 
 Auth::routes(['verify' => true]);
 
@@ -97,6 +97,11 @@ Route::get('users/{id}/watchlist', [UserWatchlistController::class, 'show'])->mi
 Route::post('users/{id}/watchlist', [UserWatchlistController::class, 'store'])->middleware(['auth:sanctum', 'verified']);
 Route::delete('users/{userId}/watchlist/{watchlistId}', [UserWatchlistController::class, 'destroy'])->middleware(['auth:sanctum', 'verified']);
 
+Route::get('/auctions/most-recent', [AuctionController::class, 'getRecentAuction']);
+
+
+
+
 // Lots
 Route::get('lots/{id}/bids', [LotController::class, 'showLotBidHistory'])->middleware(['auth:sanctum', 'verified']);
 Route::get('lots/{id}', [LotController::class,'show'])->middleware(['auth:sanctum', 'verified']);
@@ -121,6 +126,7 @@ Route::post('stripe-payment', [RegistrationFeeController::class, 'purchaseRegist
 
 // Auctions
 Route::prefix('auctions')->group(function () {
+
     Route::get('/next-auction', [AuctionController::class, 'fetchNextAuction']);
     Route::get('/past-auctions/items', [AuctionController::class, 'fetchItemsFromPastAuctions']);
     Route::get('/current-auctions/items', [AuctionController::class, 'fetchItemsFromCurrentAuctions']);
@@ -162,6 +168,10 @@ Route::get('previous-orders', [OrderController::class, 'getUserPaidOrders'])->mi
 // Contact
 Route::post('contact', [ContactController::class, 'store']);
 Route::post('contact', [ContactController::class, 'sendMail']);
+
+
+
+
 
 
 
