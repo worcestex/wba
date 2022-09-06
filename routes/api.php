@@ -42,6 +42,8 @@ use Illuminate\Support\Facades\Route;
 //})->middleware('verified');
 
 
+
+
 Auth::routes(['verify' => true]);
 
 Route::post("/register", [AuthController::class, "register"]);
@@ -83,6 +85,8 @@ Route::group('prefix'=>'dashboard',['middleware' => ['auth:sanctum','verified']]
 
 });
 */
+
+
 
 //Users
 Route::apiResource('users', UserController::class)->middleware(['auth:sanctum', 'verified']);
@@ -153,6 +157,7 @@ Route::get('bid-increments', [BidIncrementController::class, 'show']) ->middlewa
 //get request
 
 //Change language
+Route::get('/languages', [LanguageController::class, 'index']);
 Route::get('change-language/{locale}', [LanguageController::class, 'changeLanguage']);
 
 

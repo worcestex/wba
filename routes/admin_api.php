@@ -53,7 +53,7 @@ Route::group(['middleware' => ['auth:sanctum','verified','admin'], 'prefix' => '
 
     Route::apiResource('auctions',AuctionController::class);
 
-    Route::apiResource('languages',LanguageController::class);
+    //Route::apiResource('languages',LanguageController::class);
 
     Route::apiResource('shipping-method',DeliveryZoneController::class);
 

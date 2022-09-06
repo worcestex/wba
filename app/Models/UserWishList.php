@@ -13,4 +13,7 @@ class UserWishList extends Model
         'lot_id',
         'user_id',
     ];
+    public function lot() { 
+        return $this->belongsTo(Lot::class); 
+       }
 }

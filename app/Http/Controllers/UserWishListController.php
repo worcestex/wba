@@ -50,8 +50,14 @@ class UserWishListController extends Controller
      */
     public function show()
     {
-        $wishlist = UserWishList::where('user_id', auth()->user()->id)->select()->get();
-        return response()->json(['message' => auth()->user()->id, 'data' => $wishlist], 202);
+        $lots = array();
+        $wishlist_ids = UserWishlist::where('user_id', auth()->user()->id)->pluck('id')->toArray();
+        $wishlists = UserWishlist::find($wishlist_ids);
+        
+        foreach ($wishlists as $wishlist){
+            array_push($lots,$wishlist->lot);
+        }
+        return response()->json(['message' => auth()->user()->id, 'data' => $lots], 202);
     }
 
 

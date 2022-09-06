@@ -8,6 +8,10 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 
 //https://www.whiskybull.com/admin/auctions
 class AuctionController extends Controller
@@ -142,7 +146,12 @@ class AuctionController extends Controller
             ->select('id')
             ->get();
 
-        return $this->getItemsFromAuctions($auctions);
+            $data = $this->getItemsFromAuctions($auctions);
+
+            
+            return $this->paginate($data->getData()->data);
+
+            //return $this->getItemsFromAuctions($auctions);
     }
 
     public function fetchItemsFromCurrentAuctions()
@@ -153,8 +162,10 @@ class AuctionController extends Controller
             ->select('id')
             ->get();
 
+            $data = $this->getItemsFromAuctions($auctions);
 
-        return $this->getItemsFromAuctions($auctions);
+            
+            return $this->paginate($data->getData()->data);
     }
 
     /**
@@ -165,7 +176,7 @@ class AuctionController extends Controller
     {
         if (!$auctions || $auctions->isEmpty()) {
             return response()->json(['message' => 'Not found'], 404);
-        } else {
+        } else {    
             $itemsFromAuctions = [];
             foreach ($auctions as $auction) {
                 array_push($itemsFromAuctions, $auction->lots()->get());
@@ -186,4 +197,11 @@ class AuctionController extends Controller
 
     }
 
+
+    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    }
 }

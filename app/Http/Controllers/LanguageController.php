@@ -115,7 +115,12 @@ class LanguageController extends Controller
         App::setLocale($locale);
         // Session
         session()->put('locale', $locale);
+
+        return response()->json(['message' => 'Success'], 200);
+
     
         return redirect()->back();
+
+
     }
 }

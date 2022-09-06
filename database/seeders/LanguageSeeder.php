@@ -14,8 +14,22 @@ class LanguageSeeder extends Seeder
      */
     public function run()
     {
+        Language::create([
+            'language_code' => 'en',
+        ]);
+        Language::create([  
+                      'language_code' => 'zh',
+        ]);
+        Language::create([
+                        'language_code' => 'fr',
+        ]);
+        Language::create([
+                        'language_code' => 'es',
+        ]);
+        /*
         Language::factory()
             ->count(5)
             ->create();
-    }
+            */
+            }
 }
