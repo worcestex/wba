@@ -9,6 +9,7 @@ use App\Models\Lot;
 use App\Models\Bid;
 use App\Models\User;
 use App\Models\VatRate;
+use App\Events\AuctionEndEvent;
 
 use Carbon\Carbon;
 
@@ -53,7 +54,7 @@ class AuctionEndCommand extends Command
         $auction_id = $this->argument('auction-id');
 
 
-
+        broadcast(new AuctionEndEvent($auction_id));
 
             $lots = Lot::select('*')->where('auction_id', '=', $auction_id)->get();
 
@@ -74,6 +75,7 @@ class AuctionEndCommand extends Command
 
 
                         //$total_amount = $vat_amount + $bid->bid_amount;
+                        
 
 
                         Order::create([

@@ -23,6 +23,10 @@ use App\Http\Controllers\VerifyEmailController;
 
 use App\Models\Order;
 
+use App\Events\AuctionEndEvent;
+
+
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -137,6 +141,10 @@ Route::prefix('auctions')->group(function () {
 });
 
 
+Route::get('broadcast', function(){
+    broadcast(new AuctionEndEvent());
+
+});
 
 
 

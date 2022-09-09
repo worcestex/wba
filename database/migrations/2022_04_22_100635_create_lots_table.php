@@ -19,7 +19,7 @@ class CreateLotsTable extends Migration
             $table->string('serial_number')->nullable(); // item serial number
             $table->boolean('featured')->default(false);
             $table->foreignId('auction_id')->nullable();
-            $table->foreignId('winning_bid')->nullable();
+            $table->integer('winning_bid')->nullable();
             $table->foreignId('bid_increment_id')->nullable();
             $table->string('status')->nullable();
             $table->float('item_price_excl_vat')->nullable();

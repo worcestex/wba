@@ -7,6 +7,8 @@ use App\Models\Bid;
 use App\Models\BidIncrement;
 use App\Models\Lot;
 use App\Models\User;
+use App\Events\AuctionEndEvent;
+
 
 
 use Carbon\Carbon;
@@ -74,6 +76,9 @@ class BidController extends Controller
                     return response()->json(['message' => 'Bid amount out of range'.$minBid."-".$maxBid], 406);
                     // else - place bid
                 } else {
+                    $lot->winning_bid =$request->bid_amount;
+
+                    $lot->save();
                     return $this->placeBid($request);
                 }
             } else {
@@ -83,6 +88,9 @@ class BidController extends Controller
                 } else {
                     // else -> place bid
                     $latestBid->update(['winning_bid' => false]);
+                    $lot->winning_bid = $request->bid_amount;
+                    $lot->save();
+
                     return $this->placeBid($request);
                 }
             }
@@ -105,6 +113,8 @@ class BidController extends Controller
         $bid->lot_id = $request->lot_id;
         $bid->start_date_time = Carbon::now();
         $bid->save();
+        broadcast(new AuctionEndEvent());
+
         return response()->json(['message' => 'Successful', 'data' => $bid], 201);
     }
 
