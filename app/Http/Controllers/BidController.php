@@ -113,7 +113,6 @@ class BidController extends Controller
         $bid->lot_id = $request->lot_id;
         $bid->start_date_time = Carbon::now();
         $bid->save();
-        broadcast(new AuctionEndEvent());
 
         return response()->json(['message' => 'Successful', 'data' => $bid], 201);
     }

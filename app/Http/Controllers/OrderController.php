@@ -192,11 +192,13 @@ class OrderController extends Controller
               Mail::to($user_to[0]->email)->send(new LotPurchasedMail());
 
         }
+        /*
         $orders = Order::
         where("buyer_id", auth()->user()
         ->id)->where("is_payment_confirmed", 0)
         ->update(['order_status_id' => 2])
         ->update(['is_payment_confirmed' => 1]);
+        */
         return response()->json(['message' => 'Successful'], 201);
 
 
