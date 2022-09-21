@@ -116,7 +116,7 @@ Route::get('lots/{id}', [LotController::class,'show'])->middleware(['auth:sanctu
 Route::get('lots', [LotController::class,'index'])->middleware(['auth:sanctum', 'verified']);
 Route::put('lots/{id}', [LotController::class,'update'])->middleware(['auth:sanctum', 'verified']);
 
-
+Route::get('sell-lot', [LotController::class,'soldLot'])->middleware(['auth:sanctum', 'verified']);
 Route::post('sell-lot', [LotController::class, 'sellLot'])->middleware(['auth:sanctum', 'verified']);
 
 Route::apiResource('lots-storage',LotStorageController::class)->middleware(['auth:sanctum', 'verified']);
@@ -153,6 +153,7 @@ Route::get('broadcast', function(){
 Route::get('bids', [BidController::class, 'index'])->middleware(['auth:sanctum', 'verified']);
 Route::get('bids/{id}', [BidController::class, 'show'])->middleware(['auth:sanctum', 'verified']);
 Route::post('bids', [BidController::class, 'store'])->middleware(['auth:sanctum', 'verified']);
+
 Route::delete('admin/bids/{bidId}', [BidController::class,'destroy'])->middleware(['auth:sanctum', 'verified']);
 
 
@@ -181,7 +182,7 @@ Route::get('previous-orders', [OrderController::class, 'getUserPaidOrders'])->mi
 
 // Contact
 Route::post('contact', [ContactController::class, 'store']);
-Route::post('contact', [ContactController::class, 'sendMail']);
+//Route::post('contact', [ContactController::class, 'sendMail']);
 
 
 

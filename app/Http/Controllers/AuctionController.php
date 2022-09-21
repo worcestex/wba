@@ -139,14 +139,14 @@ class AuctionController extends Controller
     }
     
 
-    public function fetchItemsFromPastAuctions()
+    public function fetchItemsFromPastAuctions(Request $request)
     {
         $auctions = Auction::where('end_date_time', '<', Carbon::now())
             ->orderBy('end_date_time', 'DESC')
             ->select('id')
             ->get();
 
-            $data = $this->getItemsFromAuctions($auctions);
+            $data = $this->getItemsFromAuctions($auctions, $request->search);
 
             
             return $this->paginate($data->getData()->data);
@@ -154,15 +154,16 @@ class AuctionController extends Controller
             //return $this->getItemsFromAuctions($auctions);
     }
 
-    public function fetchItemsFromCurrentAuctions()
+    public function fetchItemsFromCurrentAuctions(Request $request)
     {
+        
         $auctions = Auction::where('start_date_time', '<', Carbon::now())
             ->where('end_date_time', '>', Carbon::now())
             ->orderBy('start_date_time', 'ASC')
             ->select('id')
             ->get();
 
-            $data = $this->getItemsFromAuctions($auctions);
+            $data = $this->getItemsFromAuctions($auctions, $request->search);
 
             
             return $this->paginate($data->getData()->data);
@@ -172,14 +173,15 @@ class AuctionController extends Controller
      * @param $pastAuctions
      * @return \Illuminate\Http\JsonResponse
      */
-    private function getItemsFromAuctions($auctions): \Illuminate\Http\JsonResponse
-    {
+    private function getItemsFromAuctions($auctions,$request): \Illuminate\Http\JsonResponse
+    {   
+
         if (!$auctions || $auctions->isEmpty()) {
             return response()->json(['message' => 'Not found'], 404);
         } else {    
             $itemsFromAuctions = [];
             foreach ($auctions as $auction) {
-                array_push($itemsFromAuctions, $auction->lots()->get());
+                array_push($itemsFromAuctions, $auction->lots()->where('name','like','%'.$request.'%')->get());
             }
             $itemsFromAuctionsData = Arr::collapse($itemsFromAuctions);
             return response()->json(['message' => 'Successful', 'data' => $itemsFromAuctionsData], 201);

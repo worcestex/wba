@@ -188,7 +188,17 @@ class LotController extends Controller
     }
 
     
+    public function soldLot(){
+        $user = auth()->user();
+        if($user){
+            $lots = Lot::where('seller_id', $user->id)->get();
+            return response()->json(['message' => 'Successful', 'data' => $lots], 201);
 
+        }else{
+            return response()->json(['message' => 'Unauthorized'], 403);
+
+        }
+    }
 
     public function sellLot(Request $request){
 

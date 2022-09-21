@@ -95,7 +95,7 @@ class AuctionEndCommand extends Command
                             'delivery_cost' => '10.00', // Start stage
                             'vat_percentage_id' => '1', //$vat_percentage_id, //
                             'vat_amount' => '10.00', //$vat_amount, // Start Stage 
-                            'total_amount' => '10.00', //$total_amount, // Start Stage 
+                            'total_amount' => $bid->bid_amount, //$total_amount, // Start Stage 
                             'is_payment_confirmed' => '0', // Buyer stage
                             'client_ip' => '127.0.0.1' // Buyer stage
                         

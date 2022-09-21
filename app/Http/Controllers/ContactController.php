@@ -31,6 +31,8 @@ class ContactController extends Controller
         $contact = new Contact($request->all());
         $contact->save();
 
+        return response()->json(['message'=> 'Saved', 'data' => $contact], 201);
+
     }
 
 

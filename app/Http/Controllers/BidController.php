@@ -26,7 +26,12 @@ class BidController extends Controller
     public function index()
     {
         // admin only
-        return Bid::all();
+        if(auth()->user()->business_member == 1){
+            return Bid::all();
+
+        }
+        
+        return Bid::where('user_id',auth()->user()->id)->get();
 
 
         // for auth user
@@ -58,7 +63,7 @@ class BidController extends Controller
 
             // check that auction is active
             if (!$auction || $auction->start_date_time > Carbon::now() || $auction->end_date_time < Carbon::now()) {
-                return response()->json(['message' => 'Current auction not Found'], 404);
+                return response()->json(['message' => 'Current auction not Found','start_date'=>$auction->start_date_time,'now'=>Carbon::now(),'end_date'=> $auction->end_date_time], 404);
             }
 
             $latestBid = Bid::where('lot_id', $lot->id)->orderBy('bid_amount', 'DESC')->first();
