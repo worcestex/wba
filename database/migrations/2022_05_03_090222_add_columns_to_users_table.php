@@ -16,6 +16,7 @@ class AddColumnsToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->uuid('user_id')->nullable();
             $table->dropColumn('name')->nullable();
+            $table->string('username')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('contact_number')->nullable();
@@ -38,6 +39,22 @@ class AddColumnsToUsersTable extends Migration
             $table->string('transferwise_iban')->nullable();
             $table->string('payment_method')->nullable();
             $table->json('note')->nullable();
+
+            //
+            $table->string('billing_address_1')->nullable();
+            $table->string('billing_address_2')->nullable();
+            $table->string('billing_postcode')->nullable();
+            $table->string('billing_county')->nullable();
+            $table->boolean('is_billing_shipping')->nullable();
+
+            $table->string('shipping_address_1')->nullable();
+            $table->string('shipping_address_2')->nullable();
+            $table->string('shipping_postcode')->nullable();
+            $table->string('shipping_county')->nullable();
+
+
+
+
         });
     }
 

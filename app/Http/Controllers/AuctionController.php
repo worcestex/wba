@@ -23,7 +23,6 @@ class AuctionController extends Controller
      */
     public function index()
     {
-
         return Auction::all();
     }
 
@@ -35,7 +34,7 @@ class AuctionController extends Controller
      */
     public function store(Request $request)
     {
-        // 
+        //  
         $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -70,10 +69,9 @@ class AuctionController extends Controller
      */
     public function show($auctionId)
     {
-        $auction = Auction::find($auctionId);
-        if (auth()->user()->id) {
-            return response()->json(['data' => $auction], 201);
-        }
+        $auction = Auction::where('id', $auctionId)->get();
+        return response()->json(['data' => $auction], 201);
+        
         
     }
 

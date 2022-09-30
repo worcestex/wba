@@ -43,6 +43,7 @@ class UserFactory extends Factory
         return [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
+            'username' => $this->faker->username(),
             'user_id' => $this->faker->numberBetween(10000, 1000000000),
             'contact_number' => $this->faker->phoneNumber(),
             'mobile_number' => $this->faker->phoneNumber(),
@@ -58,6 +59,20 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+            'billing_address_1' => $this->faker->boolean(50) ? $this->faker->address() : null,
+            'billing_address_2' => $this->faker->boolean(50) ? $this->faker->address() : null,
+            'billing_postcode' => $this->faker->boolean(50) ? $this->faker->postcode() : null,
+            'billing_county' => $this->faker->boolean(50) ? $this->faker->country() : null,
+
+            'is_billing_shipping' => $this->faker->boolean(50) ? $this->faker->boolean() : null,
+
+            'shipping_address_1' => $this->faker->boolean(50) ? $this->faker->address() : null,
+            'shipping_address_2' => $this->faker->boolean(50) ? $this->faker->address() : null,
+            'shipping_postcode' => $this->faker->boolean(50) ? $this->faker->postcode() : null,
+            'shipping_county' => $this->faker->boolean(50) ? $this->faker->country() : null,
+
+
+
         ];
     }
 

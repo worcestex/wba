@@ -299,7 +299,10 @@ class LotController extends Controller
     
          */
         $lot = new Lot($request->all());
-        $lot->status = 'registered';
+        $lot->bid_increment_id = $request->bid_increment_id;
+        $lot->status = 'registered';    
+        $lot->images = $request->images;
+
         $lot->seller_id = auth()->user()->id;
 
 

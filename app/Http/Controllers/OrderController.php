@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\CheckoutSuccessfulMail;
 use App\Mail\LotPurchasedMail;
 use App\Mail\OrderUpdateMail;
+use Carbon\Carbon;
 
 
 
@@ -136,16 +137,20 @@ class OrderController extends Controller
 
     public function checkoutOrders(Request $request){
 
-
+        
+        $stripe = new \Stripe\StripeClient(
+            env('STRIPE_SECRET'));
         // Stripe Payment Code
         $user_from= $request->user();
 
         $user_from->createOrGetStripeCustomer();
         
-        $orders =  Order::select('order_id','total_amount','order_status_id')->where("buyer_id", auth()->user()->id)->where("is_payment_confirmed", 0)->get();
+        $orders =  Order::select('order_id','total_amount','order_status_id')
+        ->where("buyer_id", auth()->user()->id)
+        ->where("is_payment_confirmed", 0)
+        ->get();
 
-        $stripe = new \Stripe\StripeClient(
-            env('STRIPE_SECRET'));
+
 
         $paymentMethod = $stripe->paymentMethods->create([
             'type' => 'card', //this
@@ -156,7 +161,6 @@ class OrderController extends Controller
               'cvc' => $request->cvc,
             ],
           ]);
-
           $payment_method_details = $user_from->charge(
             Order::where("buyer_id", $user_from->id)
             ->where("is_payment_confirmed", 0)
@@ -165,32 +169,33 @@ class OrderController extends Controller
 
 
             Mail::to($user_from->email)->send(new CheckoutSuccessfulMail());
-
-
+            
+            Order::where("buyer_id", auth()->user()->id)
+            ->update([
+                "is_payment_confirmed"=> true,
+                "payment_date" => Carbon::Now()
+        ]);
         foreach($orders as $order){
              
             $seller = Lot::select('seller_id')->where('id',$order->order_id)->get();
 
             $user_to = User::where('id',$seller[0]->seller_id)->get();
 
-            $userTo = $stripe->accounts->create([
-                'type' => 'custom',
-                'country' => 'GB',
-                'email' => $user_to[0]->email,
-                'capabilities' => [
-                  'card_payments' => ['requested' => true],
-                  'transfers' => ['requested' => true],
-                ],
-              ]);
+
             /*
+
             $stripe->transfers->create([
                 'amount' => $order->total_amount*100,
                 'currency' => 'gbp',
-                'destination' => $userTo->id,
-              ]);
-              */
-              Mail::to($user_to[0]->email)->send(new LotPurchasedMail());
+                'destination' => $user_from->bank_account,//$user_to[0]->stripe_id,
+                'transfer_group' => 'ORDER_95',
 
+              ]);
+*/
+
+              
+              Mail::to($user_to[0]->email)->send(new LotPurchasedMail());
+              
         }
         /*
         $orders = Order::

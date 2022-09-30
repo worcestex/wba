@@ -131,12 +131,16 @@ Route::post('users/{id}/basket',[OrderController::class,'checkoutOrders'])->midd
 
 Route::get('stripe-payment', [RegistrationFeeController::class, 'handleGet'])->middleware(['auth:sanctum', 'verified']);;
 Route::post('stripe-payment', [RegistrationFeeController::class, 'purchaseRegistrationFee'])->name('stripe.payment')->middleware(['auth:sanctum', 'verified']);;
+Route::put('buyer-account', [UserController::class, 'updateUserCard'])->name('stripe.update')->middleware(['auth:sanctum', 'verified']);;
+Route::put('seller-account', [UserController::class, 'updateSeller'])->middleware(['auth:sanctum', 'verified']);;
 
 
 // Auctions
 Route::prefix('auctions')->group(function () {
 
     Route::get('/next-auction', [AuctionController::class, 'fetchNextAuction']);
+    Route::get('/{id}', [AuctionController::class, 'show']);
+
     Route::get('/past-auctions/items', [AuctionController::class, 'fetchItemsFromPastAuctions']);
     Route::get('/current-auctions/items', [AuctionController::class, 'fetchItemsFromCurrentAuctions']);
 });
@@ -177,6 +181,7 @@ Route::put('details', [UserController::class, 'updateUserDetails'])->middleware(
 
 // User orders 
 Route::get('orders', [OrderController::class, 'getUserUnpaidOrders'])->middleware(['auth:sanctum', 'verified']);
+Route::get('orders/paid', [OrderController::class, 'getUserPaidOrders'])->middleware(['auth:sanctum', 'verified']);
 Route::get('previous-orders', [OrderController::class, 'getUserPaidOrders'])->middleware(['auth:sanctum', 'verified']);
 
 

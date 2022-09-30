@@ -36,6 +36,15 @@ class User extends Authenticatable implements MustVerifyEmail
         'city'  ,
         'country' ,
         'postcode',
+        'billing_address_1',
+        'billing_address_2',
+        'billing_postcode',
+        'billing_country',
+        'shipping_address_1',
+        'shipping_address_2',
+        'shipping_postcode',
+        'shipping_country',
+
 
     ];
 

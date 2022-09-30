@@ -41,7 +41,13 @@ class RegistrationFeeController extends Controller
               'cvc' => $request->cvc,
             ],
           ]);
-          
+
+
+          $stripe->paymentMethods->attach(
+            $paymentMethod->id,
+            ['customer' => auth()->user()->stripe_id]
+          );
+
           
             //Send mail
 
