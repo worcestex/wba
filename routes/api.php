@@ -180,8 +180,12 @@ Route::get('details', [UserController::class, 'getUserDetails'])->middleware(['a
 Route::put('details', [UserController::class, 'updateUserDetails'])->middleware(['auth:sanctum', 'verified']);
 
 // User orders 
-Route::get('orders', [OrderController::class, 'getUserUnpaidOrders'])->middleware(['auth:sanctum', 'verified']);
+Route::get('orders', [OrderController::class, 'index'])->middleware(['auth:sanctum', 'verified']);
+Route::get('order/{id}', [OrderController::class, 'show'])->middleware(['auth:sanctum', 'verified']);
+
 Route::get('orders/paid', [OrderController::class, 'getUserPaidOrders'])->middleware(['auth:sanctum', 'verified']);
+Route::get('orders/unpaid', [OrderController::class, 'getUserUnPaidOrders'])->middleware(['auth:sanctum', 'verified']);
+
 Route::get('previous-orders', [OrderController::class, 'getUserPaidOrders'])->middleware(['auth:sanctum', 'verified']);
 
 

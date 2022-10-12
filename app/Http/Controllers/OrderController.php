@@ -29,7 +29,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        // for admins
+        // for admins   
         // admin only
         if(auth()->user()->business_member){
             return Order::all();
@@ -62,9 +62,11 @@ class OrderController extends Controller
     {
         //for admin
         // show order where id == $id
-
         //for user
         // show order where id == $id if $order->user_id === auth()->user()->id
+        return Order::where('id', $id)->get();
+
+
     }
 
     /**
