@@ -1,8 +1,7 @@
-<p align="center"><a href="https://www.whiskybull.com/" target="_blank"><img src="https://www.whiskybull.com/sites/whiskybull/images/logo.png?v=2" width="400"></a></p>
+<p align="center"><img src="https://www.whiskybull.com/sites/whiskybull/images/logo.png?v=2" width="400"></a></p>
 
-## Whisky Bull Auctions
+## WBA
 This is the API backend for WBA built with Laravel.
-<a href="https://www.whiskybull.com/">https://www.whiskybull.com/</a>
 
 
 
