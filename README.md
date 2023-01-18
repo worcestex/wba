@@ -1,4 +1,4 @@
-<p align="center"><img src="https://www.whiskybull.com/sites/whiskybull/images/logo.png?v=2" width="400"></a></p>
+<p align="center"></a></p>
 
 ## WBA
 This is the API backend for WBA built with Laravel.
